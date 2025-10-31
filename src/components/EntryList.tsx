@@ -22,6 +22,7 @@ export default function EntryList({ entries = [] as Entry[] }: { entries?: Entry
       <FlatList
         data={entries}
         keyExtractor={(i) => i.id}
+        scrollEnabled={false}
         renderItem={({ item }) => (
           <Card style={styles.card}>
             <Card.Content>

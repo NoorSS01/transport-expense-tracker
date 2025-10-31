@@ -14,6 +14,7 @@ export default function RecentEntries({ entries = [] as DailyEntry[] }: { entrie
         <FlatList
           data={entries}
           keyExtractor={(item) => item.id}
+          scrollEnabled={false}
           renderItem={({ item }) => (
             <Card style={styles.card}>
               <Card.Content>

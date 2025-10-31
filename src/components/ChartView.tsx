@@ -22,6 +22,8 @@ export default function ChartView({ data = [] as DataPoint[] }: { data?: DataPoi
         data={chartData}
         width={screenWidth}
         height={220}
+        yAxisLabel={""}
+        yAxisSuffix={""}
         fromZero
         chartConfig={{
           backgroundGradientFrom: '#fff',
