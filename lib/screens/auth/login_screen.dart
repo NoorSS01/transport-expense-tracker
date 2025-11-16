@@ -261,11 +261,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   builder: (context, authProvider, child) {
                     return OutlinedButton.icon(
                       onPressed: authProvider.isLoading ? null : _handleGoogleLogin,
-                      icon: Image.asset(
-                        'assets/images/google_logo.png',
-                        width: 20,
-                        height: 20,
-                      ),
+                      icon: const Icon(LucideIcons.globe),
                       label: const Text('Continue with Google'),
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 12),

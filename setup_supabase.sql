@@ -62,7 +62,10 @@ CREATE POLICY "Users can update own profile" ON user_profiles
   FOR UPDATE USING (auth.uid() = id);
 
 CREATE POLICY "Users can insert own profile" ON user_profiles 
-  FOR INSERT WITH CHECK (auth.uid() = id);
+  FOR INSERT WITH CHECK (true);
+
+CREATE POLICY "Service role can insert profiles" ON user_profiles
+  FOR INSERT WITH CHECK (auth.uid() = id OR auth.role() = 'service_role');
 
 -- Create policies for vehicle_configs
 CREATE POLICY "Users can manage own vehicle config" ON vehicle_configs 
