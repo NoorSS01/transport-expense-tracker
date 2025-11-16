@@ -16,6 +16,7 @@ void main() async {
   await Supabase.initialize(
     url: AppConstants.supabaseUrl,
     anonKey: AppConstants.supabaseAnonKey,
+    debug: false, // Disable debug mode for better performance
   );
   
   runApp(const ProfitTrackerApp());

@@ -84,14 +84,19 @@ class AuthProvider extends ChangeNotifier {
       _setLoading(true);
       _clearError();
 
+      debugPrint('Starting signup for email: $email');
+      
       final response = await _supabase.auth.signUp(
         email: email,
         password: password,
         data: {'full_name': fullName},
       );
 
+      debugPrint('Signup response: ${response.user?.id}');
+
       if (response.user != null) {
         // Create user profile
+        debugPrint('Creating user profile...');
         await _databaseService.createUserProfile(
           response.user!.id,
           email,
@@ -100,14 +105,18 @@ class AuthProvider extends ChangeNotifier {
         
         _user = response.user;
         await _loadUserProfile();
+        debugPrint('Signup successful');
         return true;
       }
+      _setError('Signup failed: No user returned');
       return false;
     } on AuthException catch (e) {
+      debugPrint('Auth error during signup: ${e.message}');
       _setError(e.message);
       return false;
     } catch (e) {
-      _setError('An unexpected error occurred');
+      debugPrint('Unexpected error during signup: $e');
+      _setError('Signup failed: ${e.toString()}');
       return false;
     } finally {
       _setLoading(false);
@@ -152,7 +161,8 @@ class AuthProvider extends ChangeNotifier {
       }
       return false;
     } catch (e) {
-      _setError('Google sign-in failed');
+      debugPrint('Google sign-in error: $e');
+      _setError('Google sign-in failed: ${e.toString()}');
       return false;
     } finally {
       _setLoading(false);

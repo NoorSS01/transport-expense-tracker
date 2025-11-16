@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/user_profile.dart';
 import '../models/vehicle_config.dart';
@@ -8,22 +9,34 @@ class DatabaseService {
 
   // User Profile Operations
   Future<UserProfile> createUserProfile(String userId, String email, String? fullName) async {
-    final now = DateTime.now();
-    final data = {
-      'id': userId,
-      'email': email,
-      'full_name': fullName,
-      'created_at': now.toIso8601String(),
-      'updated_at': now.toIso8601String(),
-    };
+    try {
+      debugPrint('Creating user profile for userId: $userId');
+      final now = DateTime.now();
+      final data = {
+        'id': userId,
+        'email': email,
+        'full_name': fullName,
+        'created_at': now.toIso8601String(),
+        'updated_at': now.toIso8601String(),
+      };
 
-    final response = await _supabase
-        .from('user_profiles')
-        .insert(data)
-        .select()
-        .single();
+      final response = await _supabase
+          .from('user_profiles')
+          .insert(data)
+          .select()
+          .single();
 
-    return UserProfile.fromJson(response);
+      debugPrint('User profile created successfully');
+      return UserProfile.fromJson(response);
+    } catch (e) {
+      debugPrint('Error creating user profile: $e');
+      // If profile already exists (from trigger), try to fetch it
+      if (e.toString().contains('duplicate') || e.toString().contains('already exists')) {
+        debugPrint('Profile already exists, fetching it...');
+        return getUserProfile(userId);
+      }
+      rethrow;
+    }
   }
 
   Future<UserProfile> getUserProfile(String userId) async {

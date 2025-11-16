@@ -184,7 +184,7 @@ class _AddEntryScreenState extends State<AddEntryScreen> {
                 label: 'Kilometers Traveled Today',
                 hintText: 'Enter kilometers',
                 keyboardType: TextInputType.number,
-                prefixIcon: const Icon(LucideIcons.route),
+                prefixIcon: const Icon(LucideIcons.navigation),
                 suffixIcon: const Padding(
                   padding: EdgeInsets.all(12),
                   child: Text('km'),
@@ -265,16 +265,16 @@ class _AddEntryScreenState extends State<AddEntryScreen> {
               ],
               
               // Save Button
-              CustomButton(
-                text: Consumer<DailyEntryProvider>(
-                  builder: (context, provider, child) {
-                    return provider.hasTodayEntry ? 'Update Entry' : 'Save Entry';
-                  },
-                ),
-                onPressed: _calculatedRevenue != null && !_isCalculating 
-                    ? _handleSaveEntry 
-                    : null,
-                isLoading: _isCalculating,
+              Consumer<DailyEntryProvider>(
+                builder: (context, provider, child) {
+                  return CustomButton(
+                    text: provider.hasTodayEntry ? 'Update Entry' : 'Save Entry',
+                    onPressed: _calculatedRevenue != null && !_isCalculating 
+                        ? _handleSaveEntry 
+                        : null,
+                    isLoading: _isCalculating,
+                  );
+                },
               ),
               
               const SizedBox(height: 16),

@@ -175,7 +175,7 @@ class _MonthlyStatsScreenState extends State<MonthlyStatsScreen> {
                   child: _buildSummaryCard(
                     'Total Distance',
                     '${totalKilometers.toStringAsFixed(0)} km',
-                    LucideIcons.route,
+                    LucideIcons.navigation,
                     AppTheme.primaryColor,
                   ),
                 ),
